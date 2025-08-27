@@ -6,6 +6,7 @@ putnam
 purpose: The "Bolter" (replace noun) sales program.
 */
 
+
 //magic words
 #include <iostream>
 using namespace std;
