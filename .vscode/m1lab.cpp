@@ -3,7 +3,7 @@ csc 134
 m1lab
 putnam
 8/27/2025
-purpose: The "gem" (replace noun) sales program.
+purpose: The "Bolter" (replace noun) sales program.
 */
 
 //magic words
@@ -21,6 +21,7 @@ int main(){
     //cout << "Welcome to the " << item_name << " store!" << endl;
     cout << "Welcome to the " << item_name << " store!" << endl;
     cout << "We have " << num_items << " total." << endl;
+    cout << "Each Bolter cost " << cost_per << endl;
     // do the processing
     double total_cost = num_items * cost_per;
     // Print the output
