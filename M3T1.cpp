@@ -32,7 +32,8 @@ int main() {
     area2 = length2 * width2;
 
     // Print the output
-
+    cout << "Frist rectangle area = " << area1 << endl;
+    cout << "Second rectangle area = " << area2 << endl;
 
 
     return 0; // no errors
