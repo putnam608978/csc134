@@ -36,7 +36,7 @@ int main(){
   roll1 = roll();
   roll2 = roll();
    int sum = roll1+roll2;
-   cout << "ROLL: " << sum << end;
+   cout << "ROLL: " << sum << endl;
    // win on 7 or 11
    if ((sum == 7) || (sum == 11)) {
     cout << "Lucky Seven or Eleven -- You Win!" << endl;
@@ -57,7 +57,7 @@ int main(){
 // Define Helper Functions
 int roll() {
     int my_roll;
-    my_roll + (rand() % 6) +1; // 1-6
+    my_roll = (rand() % 6) +1; // 1-6
     return my_roll;
 }
 
