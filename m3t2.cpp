@@ -7,8 +7,8 @@ Putnam, Elijah
 
 
 #include <iostream>
-#include <cstdlib>
-#include <ctime>
+#include <cstdlib> // for rand() srand()
+#include <ctime> // for time()
 
 
 using namespace std;
@@ -30,13 +30,13 @@ int main(){
    int roll1 = 2;
    int roll2 = 5;
    int point;      // roll if it doesn't immdiately win/lose
-
-   // Blatanly cheat
-   cout << "Enter two dice (press ENTER between) ";
-   cin >> roll1;
-   cin >> roll2;
+    // Seed RNG before roll
+    srand(time(0)); 
+  // roll the dice
+  roll1 = roll();
+  roll2 = roll();
    int sum = roll1+roll2;
-
+   cout << "ROLL: " << sum << end;
    // win on 7 or 11
    if ((sum == 7) || (sum == 11)) {
     cout << "Lucky Seven or Eleven -- You Win!" << endl;
@@ -56,9 +56,9 @@ int main(){
 
 // Define Helper Functions
 int roll() {
-    // rolls a six sidded dice
-    // TODO
-    return 6;
+    int my_roll;
+    my_roll + (rand() % 6) +1; // 1-6
+    return my_roll;
 }
 
 
