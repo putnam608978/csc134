@@ -11,8 +11,8 @@ using namespace std;
 // ========== FUNCTION PROTOTYPES ==========
 // Declare all your "rooms" up here
 void fighting_postion_Kilo(); // Starting location
-void forest(); // A possible path
-void castle(); // Another path
+void city_center(); // A possible path
+void governor_palace(); // Another path
 void gameOver(); // An ending
 void victory(); // Another ending
 // ========== MAIN FUNCTION ==========
@@ -38,8 +38,8 @@ int choice;
 cin >> choice;
 if (choice == 1)
 {
-cout << "\n'You gather your forces and lead a fighting withdraw back to the city center. During the withdraw your forces are harassed by enemy jet bikes and aircraft trying to break up your formation. But you keep your forces tougher and repel each enemy attack and make it to the city center to rejoin what remains of the planetary defense forces. !'" << endl;
-forest(); // Go to forest function
+cout << "\n'You gather your forces and lead a fighting withdraw back to the city center. During the withdraw your forces are harassed by enemy jet bikes and aircraft trying to break up your formation. But you keep your forces together and repel each enemy attack and make it to the city center to rejoin what remains of the planetary defense forces. !'" << endl;
+city_center(); // Go to city_center function
 }
 else
 {
@@ -47,15 +47,17 @@ cout << "\n'The fighting intensifies and you organize your soldiers into a formi
 gameOver(); // Go to game over
 }
 }
-void forest()
+void city_center()
 {
-// TODO: Add your forest scene here!
-cout << "\n[Forest scene not yet written]" << endl;
+cout << "\n[As you approach the city center you call your higher command to request covering fire to suppress the Dark Eldar forces attacking your convoy. “ This is Captain Lewis continue straight and are gunners will engage the enemy as soon as they enter range. Heavy bolter fires suddenly starts flying overhead and drives the Dark Eldar back They take minimal losses in the exchange.   ]" << endl; 
+governor_palace(); // go to governor palace
 }
-void castle()
+
+void governor_palace()
 {
 // TODO: Add your castle scene here!
-cout << "\n[Castle scene not yet written]" << endl;
+cout << "\n[Your forces enter the defensive perimeter and you tell your men to resupply and join the defenses. Captain Lewis approaches you “LT Smith I need you to come with me, we taken heavy casualties and need to speak with the governor about the situation and plan our next move.]" << endl;
+cout << "You walk into the palace next to Captain Lewis and approach the governor. He is clearly panicking and speaking to himself. Captain Lewis speaks loudly “ Sir we need to call for reinforcements.” The governor ignors the Captin"
 }
 void gameOver()
 {
