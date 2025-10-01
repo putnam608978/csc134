@@ -71,6 +71,19 @@ void governor_palace()
 cout << "\n[Your forces enter the defensive perimeter and you tell your men to resupply and join the defenses. Captain Lewis approaches you “LT Smith I need you to come with me, we taken heavy casualties and need to speak with the governor about the situation and plan our next move.]" << endl;
 cout << "You walk into the palace next to Captain Lewis and approach the governor. He is clearly panicking and speaking to himself. Captain Lewis speaks loudly “ Sir we need to call for reinforcements.” The governor ignors the Captin." << endl;
 cout << "The governor continued to talk to himself and you and Captain Lewis hear him say they were supposed to only raid the fringe settlements." << endl;
+cout << " You and Captin Lewis aim your weapons at the governor As Captin Lewis yells at the Govennor you made a deal with these zeno scum!" << endl;
+cout << " Do you shoot the Govennor? (1 = Yes, 2 = No): "; 
+int choice;
+    cin >> choice;
+    if (choice == 1){
+        cout << " You shoot the Governor and Captain Lewis turns to shoot you so you quickly shoot him. Then you take control of the defenses and lead the following soldiers in the fight against the Dark Eldar and hold out until reinforcements arrive." << endl;
+        victory(); // go to victory 
+    }
+    else
+    {
+        cout << "Captin Lewis lowers his weapon and asks the govener what are his orders. And the Govenor decides to surrender to the Dark Eldar and the plannet is taken as slaves by the Dark Eldar." << endl;
+        gameOver();
+    }
 }
 void gameOver()
 {
