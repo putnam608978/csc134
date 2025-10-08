@@ -84,7 +84,7 @@ int choice;
         cout << "Captin Lewis lowers his weapon and asks the govener what are his orders. And the Govenor decides to surrender to the Dark Eldar and the plannet is taken as slaves by the Dark Eldar." << endl;
         gameOver();
     }
-void organizing_the_defenses()
+void organizing_the_defenses(){
 cout << "Captain Lewis looks at you and asks “why did you do that” you reply he was a traitor he sold us out and he deserved to die!” Captain Lewis hangs his head and solemnly says what are we going to do now.  suddenly the planets Astropath walks forward and says there are ancient rights I can perform to summon the emperors Angles. " << endl;
 cout << "Do you have the Astropath conduct the ancient rights? (1 = Yes, 2 = No): ";
 int choice;
