@@ -12,6 +12,10 @@ Expanded by Gemini
 
 using namespace std;
 
+// ========== GLOBAL STATE FOR CAMPAIGN EFFECTS ==========
+// If true, the Dark Eldar cannot use their fast-attack Jet Bikes in LZ Alpha.
+bool g_fuel_destroyed = false;
+
 // ========== FUNCTION PROTOTYPES ==========
 // Declare all your "rooms" up here
 void fighting_postion_Kilo(); // Starting location
@@ -23,8 +27,10 @@ void communications_outpost(); // Side path to try and call for help
 void grim_victory();         // Transition to the campaign phase
 void grim_victory_transition(); // Introduction of Commander Moore & CSM Rexor
 void elysian_campaign_start(); // The first choice of the campaign
-void landing_zone_alpha();  // NEW: Aircav assault on LZ Alpha (The Ia Drang scenario)
-void strike_cache_B_aircav();  // Aircav assault on Cache B
+void strike_cache_B_aircav();  // EXPANDED: Quick strike that leads to LZ Alpha
+void landing_zone_alpha_stage_one(); // NEW: LZ Alpha - Initial Landing
+void lz_alpha_stage_two_night_siege(); // NEW: LZ Alpha - Night Defense
+void lz_alpha_stage_three_dawn_assault(); // NEW: LZ Alpha - Final Push
 void gameOver();             // An ending
 void victory();              // Another ending
 void tactical_victory();      // NEW: A successful campaign mission victory
@@ -198,77 +204,163 @@ void grim_victory_transition()
 void elysian_campaign_start()
 {
     cout << "\n***OPERATION: PLANETARY CLEANSING***" << endl;
-    cout << "Commander Moore has established a temporary command post near the outpost. He lays out his plan: The 224th will use rapid insertion via **Valkyrie Assault Carriers** to seize two crucial Dark Eldar supply caches (A and B) simultaneously. He needs your advice on which cache will cause the most disruption." << endl;
-    cout << "Cache A is closer, but heavily defended by stationary defenses. Cache B is further away, but contains their primary fuel source for their jet bikes." << endl;
-    cout << "Which cache should the Elysian Drop Troopers prioritize to begin the counter-attack? (1 = Cache A: Closer but heavily defended, 2 = Cache B: Further, but high-value fuel target): ";
+    cout << "Commander Moore has established a temporary command post near the outpost. He lays out his plan: The 224th will use rapid insertion via **Valkyrie Assault Carriers** to seize two crucial Dark Eldar supply caches (A and B) simultaneously. He needs your advice on which objective to prioritize." << endl;
+    cout << "Cache A (LZ Alpha) is the communications relay, heavily defended. Cache B is the primary fuel source for their jet bikes." << endl;
+    cout << "Which objective should the Elysian Drop Troopers prioritize to begin the counter-attack? (1 = LZ Alpha: The main objective, a direct, high-risk assault, 2 = Cache B: Disable their mobility first, then proceed to LZ Alpha): ";
     
     int choice;
     while (!(cin >> choice) || (choice != 1 && choice != 2)) {
         handleInvalidInput();
-        cout << "Which cache should be prioritized? (1 = Cache A, 2 = Cache B): ";
+        cout << "Which objective should be prioritized? (1 = LZ Alpha, 2 = Cache B): ";
     }
     
     if (choice == 1) {
-        cout << "\nCommander Moore nods. 'A swift punch to their immediate defenses. Understood. Prepare your squad for Valkyrie insertion to LZ Alpha.'" << endl;
-        landing_zone_alpha(); // Call the RENAMED function
+        cout << "\nCommander Moore nods. 'A swift punch to their heart. Understood. Prepare your squad for Valkyrie insertion to LZ Alpha.'" << endl;
+        landing_zone_alpha_stage_one(); // Go straight to the main fight
     } else {
-        cout << "\nCommander Moore considers this. 'Deny them mobility. A riskier drop, but the reward is worth it. Prepare your squad for Valkyrie insertion to Cache B.'" << endl;
-        strike_cache_B_aircav(); // Call the new Aircav function
-    }
-}
-
-void landing_zone_alpha()
-{
-    cout << "\n***LZ ALPHA: BATTLE FOR THE COMM RELAY***" << endl;
-    cout << "You are aboard the lead Valkyrie with Commander Moore and CSM Rexor. This is the **LZ Alpha** insertion, intended to seize the critical Dark Eldar communications relay. The moment you land, it's clear the enemy was waiting: the LZ is a **Death Trap**." << endl;
-    cout << "Dark Eldar forces, hidden in the surrounding jungle like the jungle warriors of ancient Terra, erupt with concentrated fire, pinning down your Elysian Drop Troopers. The enemy is in overwhelming numbers, immediately threatening to cut off one of your key platoons, commanded by Lieutenant Sarn." << endl;
-    
-    // The immediate threat, mirroring the 'cut off' plot point
-    cout << "Commander Moore radios: 'They're trying to cut Sarn off! If they break his line, they'll overrun the entire LZ! Lieutenant Smith, what's the immediate priority to save Sarn and secure the zone?'" << endl;
-    cout << "Your options, based on the principle of airmobile support:" << endl;
-    cout << "(1 = Focus all available Air Support (Thunderbolts) on Sarn's sector immediately, 2 = Call for the infantry reserve (Alpha Company) to push through the perimeter to link up with Sarn): ";
-
-    int choice;
-    while (!(cin >> choice) || (choice != 1 && choice != 2)) {
-        handleInvalidInput();
-        cout << "What is the immediate priority? (1 = Air Support, 2 = Infantry Link-Up): ";
-    }
-    
-    if (choice == 1) {
-        // Air Support (The call for fire near your position, mirroring the desperate situation)
-        cout << "\n'Air support is priority! Requesting immediate strafing run on Sarn's coordinates, danger close!' The Thunderbolt pilots confirm. The close air support momentarily breaks the Dark Eldar's assault on Sarn, giving his platoon a moment to consolidate. However, the momentary lull allows the *rest* of the Dark Eldar forces to reposition their heavy weapons." << endl;
-        
-        // Secondary Decision: A counter-attack is now necessary
-        cout << "\nCSM Rexor shouts over the vox, 'The Xenos are massing on the North Ridge! If they get heavy weapons up there, the whole LZ is gone! Lieutenant, we need a rush to clear that ridge before they zero in!'" << endl;
-        cout << "Moore needs your advice: (1 = Order a full-frontal assault by two platoons on the Ridge, 2 = Send one small, heavily armed squad (a 'search and destroy' element) to flank the Ridge and disrupt their assembly): ";
-        
-        int second_choice;
-        while (!(cin >> second_choice) || (second_choice != 1 && second_choice != 2)) {
-            handleInvalidInput();
-            cout << "What is your plan for the North Ridge? (1 = Full Frontal, 2 = Flank and Disrupt): ";
-        }
-        
-        if (second_choice == 1) {
-            cout << "\n'Full frontal! Fix bayonets and charge the Ridge!' The two platoons run directly into a prepared Dark Eldar killing zone. While they inflict massive casualties, the losses taken are catastrophic. The Ridge is secured, but the battle is now a grim stalemate." << endl;
-            gameOver(); // Too costly, the mission stalls and fails.
-        } else {
-            cout << "\n'Flank and Disrupt! Send the best squad, heavy weapons only! Break their assembly before they form a line!' The small squad, using dense cover, performs a swift, brutal attack, scattering the Dark Eldar massing on the ridge. The LZ is secured, and more Valkyries start landing reinforcements. A costly victory is achieved." << endl;
-            tactical_victory();
-        }
-        
-    } else {
-        // Infantry Link-Up (The classic 'push through' scenario)
-        cout << "\n'Alpha Company, push through and link up with Sarn! Move! Move! Move!' Alpha Company attempts to break through the tight encirclement to reach the cut-off platoon. The Dark Eldar recognize the danger of a unified line and focus all fire on the linking company, annihilating the company commander and forcing a brutal retreat." << endl;
-        cout << "Sarn's platoon is overrun and the LZ perimeter collapses. The mission fails spectacularly." << endl;
-        gameOver();
+        cout << "\nCommander Moore considers this. 'Deny them mobility. A riskier deep strike, but the reward is worth it. Prepare your squad for Valkyrie insertion to Cache B.'" << endl;
+        strike_cache_B_aircav(); // Complete the pre-mission first
     }
 }
 
 void strike_cache_B_aircav()
 {
     cout << "\n***STRIKE ON CACHE B (FUEL DEPOT)***" << endl;
-    cout << "You and Commander Moore prepare for the deep strike mission to Cache B, the valuable fuel depot. This high-value target is protected by Dark Eldar speeder patrols and traps. Awaiting implementation..." << endl;
-    // This is the placeholder for future expansion of the campaign.
+    cout << "You are part of a small, fast-moving insertion team. The mission is surgical: blow the fuel depot and exfiltrate. The depot is guarded by a handful of Dark Eldar Wych squads and a single Raider transport." << endl;
+    
+    // Quick decision to determine success
+    cout << "Your team spots the Raider about to patrol the main access road. Do you... (1 = Ambush the Raider and secure the entire depot first, 2 = Bypass the guards, plant the charges, and detonate immediately): ";
+
+    int choice;
+    while (!(cin >> choice) || (choice != 1 && choice != 2)) {
+        handleInvalidInput();
+        cout << "What is your strike plan? (1 = Ambush, 2 = Bypass and Detonate): ";
+    }
+    
+    if (choice == 1) {
+        cout << "\n'Ambush!' You eliminate the Raider crew and the Wych guards, but the delay allows a distress signal to be sent, alerting the main force at LZ Alpha." << endl;
+        g_fuel_destroyed = true;
+    } else {
+        cout << "\n'Bypass the guards! Plant the charges!' The depot erupts in a blinding, massive fireball. The Dark Eldar are stunned by the speed and severity of the attack. No warning is sent. The fuel is gone, mobility is crippled, and the LZ Alpha force is unaware of the loss." << endl;
+        g_fuel_destroyed = true; // Still sets the flag, but with a better tactical result.
+    }
+    
+    cout << "\n**[FUEL DESTROYED. DARK ELDAR MOBILITY CRIPPLED.]**" << endl;
+    cout << "Mission complete. You quickly regroup with the main 224th command and proceed to the primary objective: LZ Alpha." << endl;
+    landing_zone_alpha_stage_one();
+}
+
+// =======================================================
+// LZ ALPHA MULTI-STAGE BATTLE
+// =======================================================
+
+void landing_zone_alpha_stage_one()
+{
+    cout << "\n***STAGE 1: LZ ALPHA - THE INITIAL SIEGE***" << endl;
+    cout << "The Valkyries scream over the LZ. As you land, the surrounding dense terrain erupts with fire. This is the **Death Trap**. The Elysian troopers immediately take casualties." << endl;
+
+    if (g_fuel_destroyed) {
+        cout << "\n**[CRIPPLED MOBILITY]** The enemy is limited to foot infantry and standard transports. There are no swift **Jet Bikes** to exploit gaps in your line!" << endl;
+    } else {
+        cout << "\n**[FULL MOBILITY]** Dark Eldar **Jet Bikes** are everywhere, darting across the flanks and striking your soft underbelly!" << endl;
+    }
+    
+    // The immediate threat, mirroring the 'cut off' plot point
+    cout << "The Xenos are trying to cut off Lieutenant Sarn’s platoon. Commander Moore yells into the vox: 'They're trying to cut Sarn off! What's the immediate priority to save Sarn and secure the zone?'" << endl;
+    cout << "Your options:" << endl;
+    cout << "(1 = Request *Thunderbolt Strike* on Sarn's coordinates, danger close, 2 = Order CSM Rexor's command platoon to manually fight and link up with Sarn): ";
+
+    int choice;
+    while (!(cin >> choice) || (choice != 1 && choice != 2)) {
+        handleInvalidInput();
+        cout << "What is the immediate priority? (1 = Air Strike, 2 = Infantry Link-Up): ";
+    }
+    
+    if (choice == 1) {
+        // Air Support: Risky but fast
+        cout << "\n'BROKEN ARROW! Danger close on Sarn’s sector!' The strike breaks the encirclement, saving Sarn. However, the ordnance run is too close, and several Valkyrie gunships are forced to scatter, temporarily abandoning the LZ, leaving you light on air support." << endl;
+        lz_alpha_stage_two_night_siege(); // Proceed to next stage
+    } else {
+        // Infantry Link-Up: Slow but safe for air support
+        cout << "\n'Rexor! Take your men and push through to Sarn! Clear the path!' CSM Rexor leads a brutal, methodical charge. The fight is intense, but the line is restored. Rexor glares at the retreating Xenos. 'They hit hard, Lieutenant, but they can’t take a direct punch.' Your air support remains fully committed." << endl;
+        lz_alpha_stage_two_night_siege(); // Proceed to next stage
+    }
+}
+
+void lz_alpha_stage_two_night_siege()
+{
+    cout << "\n***STAGE 2: LZ ALPHA - THE NIGHT SIEGE***" << endl;
+    cout << "Night falls, and the perimeter is established. Commander Moore gathers his officers. The Dark Eldar are probing your lines with relentless, close-quarters attacks, reminiscent of the shadowy Viet Cong attacks." << endl;
+    cout << "CSM Rexor reports: 'We're holding, sir, but the Xenos are using hidden tunnels to breach our wire on the East Flank. We need a way to seal those tunnels and gain an hour of rest before the main assault at dawn.'" << endl;
+
+    // Night Siege Decision: Counter-attack or defensive trap
+    cout << "Moore looks at you: 'We can't spare the men to hold every inch. How do we stop those tunnel attacks?'" << endl;
+    cout << "(1 = Launch a night-time search-and-destroy patrol to locate and collapse the main tunnel entrance, 2 = Use flamers and demo charges to create a 'scorched earth' kill zone on the East Flank, denying cover): ";
+
+    int choice;
+    while (!(cin >> choice) || (choice != 1 && choice != 2)) {
+        handleInvalidInput();
+        cout << "What is your night defense strategy? (1 = Search and Destroy, 2 = Scorched Earth Kill Zone): ";
+    }
+
+    if (choice == 1) {
+        // Search and Destroy: High Risk, High Reward
+        cout << "\n'Search and Destroy. Find the source.' The patrol manages to find the main entrance and collapses it with a chain of melta charges. The Dark Eldar night attacks cease entirely. Your troops get 4 hours of critical sleep." << endl;
+        lz_alpha_stage_three_dawn_assault(); // Proceed with an advantage
+    } else {
+        // Scorched Earth: Medium Risk/Reward
+        cout << "\n'Scorched Earth. Burn the cover.' The flames light up the East Flank and detonate secondary charges, making the Xenos think twice about breaching there. However, the noise and fire force your own troops to stay alert, resulting in a tense, sleepless night. Your troops are exhausted." << endl;
+        lz_alpha_stage_three_dawn_assault(); // Proceed to final stage, but with a penalty (simulated by a slightly harder condition to win)
+    }
+}
+
+void lz_alpha_stage_three_dawn_assault()
+{
+    cout << "\n***STAGE 3: LZ ALPHA - THE DAWN ASSAULT***" << endl;
+    cout << "The morning mist clears, revealing a massive concentration of Dark Eldar infantry advancing on your position. This is the **Final Push**. The enemy knows they must take the LZ now." << endl;
+    
+    if (g_fuel_destroyed) {
+        cout << "The enemy infantry advance is slow and deliberate. Their lack of Jet Bike support means they cannot concentrate overwhelming force quickly. You have time for one crucial final move." << endl;
+        
+        // Easier choice due to no Jet Bikes
+        cout << "Commander Moore: 'They're slow, Lieutenant. We have time. Do we call for a high-explosive artillery barrage on their main column, or order an aggressive platoon-sized counter-attack to break their formation before they reach the wire?'" << endl;
+        cout << "(1 = Artillery Barrage, 2 = Aggressive Counter-Attack): ";
+        
+        int choice;
+        while (!(cin >> choice) || (choice != 1 && choice != 2)) {
+            handleInvalidInput();
+            cout << "Final choice? (1 = Artillery Barrage, 2 = Aggressive Counter-Attack): ";
+        }
+        
+        if (choice == 1) {
+            cout << "\n'Artillery! Bring the fire!' The pinpoint barrage annihilates the enemy column, turning the tide of the entire battle. The remaining Dark Eldar scatter in panic." << endl;
+            tactical_victory(); // Successful
+        } else {
+            cout << "\n'Counter-attack! Hit them before they hit us!' The charge is brave, but the enemy infantry line is too dense. The counter-attacking platoon is forced to retreat, having lost momentum and causing severe casualties to the Elysian force. The line holds, but only just." << endl;
+            gameOver(); // Too costly a victory
+        }
+        
+    } else {
+        cout << "The enemy assault is fast and overwhelming. Dark Eldar **Jet Bikes** are screaming across the flanks, hitting every weak point in the perimeter. You have seconds to react." << endl;
+        
+        // Harder choice due to Jet Bikes
+        cout << "Commander Moore: 'The Jet Bikes are tearing us apart! We need to destroy their fast attack capability *or* break the main infantry. What's the focus?!'" << endl;
+        cout << "(1 = Focus all heavy weapon fire on the Jet Bikes, 2 = Call in all available Air Support on the main infantry line, ignoring the bikes): ";
+        
+        int choice;
+        while (!(cin >> choice) || (choice != 1 && choice != 2)) {
+            handleInvalidInput();
+            cout << "Final choice? (1 = Focus on Jet Bikes, 2 = Focus on Infantry Line): ";
+        }
+        
+        if (choice == 1) {
+            cout << "\n'Target the bikes! Deny them mobility!' The heavy weapons crews manage to shoot down several key Jet Bikes, but the time spent not shooting the infantry allows the main Dark Eldar line to reach the wire and breach the perimeter. The LZ is overrun." << endl;
+            gameOver(); // Too little, too late
+        } else {
+            cout << "\n'Strike the main line! Destroy the heart of the assault!' The Thunderbolt pilots unleash a devastating torrent of rockets and cannons on the infantry, shattering the main column. The remaining Jet Bikes are disorganized and retreat without orders. The LZ is secured." << endl;
+            tactical_victory(); // Successful
+        }
+    }
 }
 
 void organizing_the_defenses()
@@ -334,6 +426,7 @@ void tactical_victory()
 {
     cout << "\n--------------------------------------------------" << endl;
     cout << "⚔️ TACTICAL VICTORY ⚔️" << endl;
-    cout << "The LZ is secured. The Elysian Drop Troopers have established a critical foothold on the planet. Commander Moore's tactical doctrine proves effective, but the cost in Imperial Guard blood has been paid. The liberation campaign continues..." << endl;
+    cout << "The LZ is secured. The Elysian Drop Troopers have established a critical foothold on the planet. Commander Moore's tactical doctrine proves effective, but the cost in Imperial Guard blood has been paid. The liberation campaign continues, setting the stage for the final assault on the Xenos command structure!" << endl;
     cout << "--------------------------------------------------" << endl;
 }
+
