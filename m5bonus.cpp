@@ -19,10 +19,15 @@ void city_center();          // A possible path
 void governor_palace();      // Another path
 void organizing_the_defenses(); // The next scene (fixed location)
 void the_last_stand();       // The final battle sequence
-void communications_outpost(); // NEW: Side path to try and call for help
+void communications_outpost(); // Side path to try and call for help
+void grim_victory();         // Transition to the campaign phase
+void grim_victory_transition(); // Introduction of Commander Moore & CSM Rexor
+void elysian_campaign_start(); // The first choice of the campaign
+void landing_zone_alpha();  // NEW: Aircav assault on LZ Alpha (The Ia Drang scenario)
+void strike_cache_B_aircav();  // Aircav assault on Cache B
 void gameOver();             // An ending
-void grim_victory();         // NEW: A costly but successful ending
 void victory();              // Another ending
+void tactical_victory();      // NEW: A successful campaign mission victory
 
 // ========== MAIN FUNCTION ==========
 int main()
@@ -157,10 +162,10 @@ void communications_outpost()
 
         if (defense_choice == 1) {
             cout << "\n'FOR THE EMPEROR!' Your troops rush the Ravager. The Melta-bombs stick, but the tank unleashes a torrent of deadly fire, cutting down nearly half your remaining force before it explodes. The engineer finishes the repair just as the last enemy jet bikes retreat." << endl;
-            grim_victory(); // Leads to costly victory
+            grim_victory(); // Leads to costly success and transition
         } else {
             cout << "\nYou order the brave crew of the secondary Chimera to drive forward. It draws the Ravager's attention and is quickly vaporized, but the brief distraction gives your heavy weapons time to disable the Ravager's main gun. The engineer is safe, the distress call is sent, but the loss of life and vehicles is severe." << endl;
-            grim_victory(); // Also leads to costly victory, but with a different narrative cost.
+            grim_victory(); // Also leads to costly success and transition
         }
         // --- END EXPANDED DEFEND PATH ---
     } else {
@@ -168,6 +173,102 @@ void communications_outpost()
         cout << "\n'You order the comms officer to overload the secondary relay. The signal goes out instantly! But the overload causes the relay to explode, drawing the immediate, full attention of the Dark Eldar aircraft, who annihilate the outpost, sealing your fate. You made the call, but paid the ultimate price.'" << endl;
         gameOver(); // Leads to Game Over
     }
+}
+
+void grim_victory()
+{
+    cout << "\n--------------------------------------------------" << endl;
+    cout << "💀 COSTLY SUCCESS 💀" << endl;
+    cout << "The reinforcements arrive, but too late to save the majority of the population. The planet is secured, but the cost in Imperial Guard lives and civilian casualties is immense. Your actions guaranteed the message was sent, but the horror of the Xenos raid will forever haunt this sector." << endl;
+    cout << "--------------------------------------------------" << endl;
+    // Transition to the next phase
+    grim_victory_transition();
+}
+
+void grim_victory_transition()
+{
+    cout << "\n***IMPERIAL RESPONSE***" << endl;
+    cout << "The Dark Eldar forces, unable to sustain the raid against the now-secured communications outpost, begin their retreat. Three days later, the sky is filled with the roar of Imperial ships. You are summoned to the command shuttle of the arriving forces." << endl;
+    cout << "You meet **Commander Moore** of the 224th Elysian Drop Troopers. He is stern, professional, and entirely focused on the mission. Standing beside him is **Command Sergeant Major Rexor**, a scarred, towering man whose glare could crack ceramite. Rexor's job is to ensure every trooper follows orders or regrets it." << endl;
+    cout << "Commander Moore speaks: 'Lt. Smith, your distress call saved this planet from a full enslavement. You and your surviving men will now act as local guides and tactical advisors. I have been given **supreme command** of this sector's liberation. The campaign to cleanse this world starts now.'" << endl;
+    
+    elysian_campaign_start();
+}
+
+void elysian_campaign_start()
+{
+    cout << "\n***OPERATION: PLANETARY CLEANSING***" << endl;
+    cout << "Commander Moore has established a temporary command post near the outpost. He lays out his plan: The 224th will use rapid insertion via **Valkyrie Assault Carriers** to seize two crucial Dark Eldar supply caches (A and B) simultaneously. He needs your advice on which cache will cause the most disruption." << endl;
+    cout << "Cache A is closer, but heavily defended by stationary defenses. Cache B is further away, but contains their primary fuel source for their jet bikes." << endl;
+    cout << "Which cache should the Elysian Drop Troopers prioritize to begin the counter-attack? (1 = Cache A: Closer but heavily defended, 2 = Cache B: Further, but high-value fuel target): ";
+    
+    int choice;
+    while (!(cin >> choice) || (choice != 1 && choice != 2)) {
+        handleInvalidInput();
+        cout << "Which cache should be prioritized? (1 = Cache A, 2 = Cache B): ";
+    }
+    
+    if (choice == 1) {
+        cout << "\nCommander Moore nods. 'A swift punch to their immediate defenses. Understood. Prepare your squad for Valkyrie insertion to LZ Alpha.'" << endl;
+        landing_zone_alpha(); // Call the RENAMED function
+    } else {
+        cout << "\nCommander Moore considers this. 'Deny them mobility. A riskier drop, but the reward is worth it. Prepare your squad for Valkyrie insertion to Cache B.'" << endl;
+        strike_cache_B_aircav(); // Call the new Aircav function
+    }
+}
+
+void landing_zone_alpha()
+{
+    cout << "\n***LZ ALPHA: BATTLE FOR THE COMM RELAY***" << endl;
+    cout << "You are aboard the lead Valkyrie with Commander Moore and CSM Rexor. This is the **LZ Alpha** insertion, intended to seize the critical Dark Eldar communications relay. The moment you land, it's clear the enemy was waiting: the LZ is a **Death Trap**." << endl;
+    cout << "Dark Eldar forces, hidden in the surrounding jungle like the jungle warriors of ancient Terra, erupt with concentrated fire, pinning down your Elysian Drop Troopers. The enemy is in overwhelming numbers, immediately threatening to cut off one of your key platoons, commanded by Lieutenant Sarn." << endl;
+    
+    // The immediate threat, mirroring the 'cut off' plot point
+    cout << "Commander Moore radios: 'They're trying to cut Sarn off! If they break his line, they'll overrun the entire LZ! Lieutenant Smith, what's the immediate priority to save Sarn and secure the zone?'" << endl;
+    cout << "Your options, based on the principle of airmobile support:" << endl;
+    cout << "(1 = Focus all available Air Support (Thunderbolts) on Sarn's sector immediately, 2 = Call for the infantry reserve (Alpha Company) to push through the perimeter to link up with Sarn): ";
+
+    int choice;
+    while (!(cin >> choice) || (choice != 1 && choice != 2)) {
+        handleInvalidInput();
+        cout << "What is the immediate priority? (1 = Air Support, 2 = Infantry Link-Up): ";
+    }
+    
+    if (choice == 1) {
+        // Air Support (The call for fire near your position, mirroring the desperate situation)
+        cout << "\n'Air support is priority! Requesting immediate strafing run on Sarn's coordinates, danger close!' The Thunderbolt pilots confirm. The close air support momentarily breaks the Dark Eldar's assault on Sarn, giving his platoon a moment to consolidate. However, the momentary lull allows the *rest* of the Dark Eldar forces to reposition their heavy weapons." << endl;
+        
+        // Secondary Decision: A counter-attack is now necessary
+        cout << "\nCSM Rexor shouts over the vox, 'The Xenos are massing on the North Ridge! If they get heavy weapons up there, the whole LZ is gone! Lieutenant, we need a rush to clear that ridge before they zero in!'" << endl;
+        cout << "Moore needs your advice: (1 = Order a full-frontal assault by two platoons on the Ridge, 2 = Send one small, heavily armed squad (a 'search and destroy' element) to flank the Ridge and disrupt their assembly): ";
+        
+        int second_choice;
+        while (!(cin >> second_choice) || (second_choice != 1 && second_choice != 2)) {
+            handleInvalidInput();
+            cout << "What is your plan for the North Ridge? (1 = Full Frontal, 2 = Flank and Disrupt): ";
+        }
+        
+        if (second_choice == 1) {
+            cout << "\n'Full frontal! Fix bayonets and charge the Ridge!' The two platoons run directly into a prepared Dark Eldar killing zone. While they inflict massive casualties, the losses taken are catastrophic. The Ridge is secured, but the battle is now a grim stalemate." << endl;
+            gameOver(); // Too costly, the mission stalls and fails.
+        } else {
+            cout << "\n'Flank and Disrupt! Send the best squad, heavy weapons only! Break their assembly before they form a line!' The small squad, using dense cover, performs a swift, brutal attack, scattering the Dark Eldar massing on the ridge. The LZ is secured, and more Valkyries start landing reinforcements. A costly victory is achieved." << endl;
+            tactical_victory();
+        }
+        
+    } else {
+        // Infantry Link-Up (The classic 'push through' scenario)
+        cout << "\n'Alpha Company, push through and link up with Sarn! Move! Move! Move!' Alpha Company attempts to break through the tight encirclement to reach the cut-off platoon. The Dark Eldar recognize the danger of a unified line and focus all fire on the linking company, annihilating the company commander and forcing a brutal retreat." << endl;
+        cout << "Sarn's platoon is overrun and the LZ perimeter collapses. The mission fails spectacularly." << endl;
+        gameOver();
+    }
+}
+
+void strike_cache_B_aircav()
+{
+    cout << "\n***STRIKE ON CACHE B (FUEL DEPOT)***" << endl;
+    cout << "You and Commander Moore prepare for the deep strike mission to Cache B, the valuable fuel depot. This high-value target is protected by Dark Eldar speeder patrols and traps. Awaiting implementation..." << endl;
+    // This is the placeholder for future expansion of the campaign.
 }
 
 void organizing_the_defenses()
@@ -221,18 +322,18 @@ void gameOver()
     cout << "--------------------------------------------------" << endl;
 }
 
-void grim_victory()
-{
-    cout << "\n--------------------------------------------------" << endl;
-    cout << "💀 GRIM VICTORY 💀" << endl;
-    cout << "The reinforcements arrive, but too late to save the majority of the population. The planet is secured, but the cost in Imperial Guard lives and civilian casualties is immense. Your actions guaranteed the message was sent, but the horror of the Xenos raid will forever haunt this sector." << endl;
-    cout << "--------------------------------------------------" << endl;
-}
-
 void victory()
 {
     cout << "\n--------------------------------------------------" << endl;
     cout << "🌟 VICTORY! 🌟" << endl;
     cout << "The Sons of Dorn arrive to cleanse the Xeno threat. The planet is saved!" << endl;
+    cout << "--------------------------------------------------" << endl;
+}
+
+void tactical_victory()
+{
+    cout << "\n--------------------------------------------------" << endl;
+    cout << "⚔️ TACTICAL VICTORY ⚔️" << endl;
+    cout << "The LZ is secured. The Elysian Drop Troopers have established a critical foothold on the planet. Commander Moore's tactical doctrine proves effective, but the cost in Imperial Guard blood has been paid. The liberation campaign continues..." << endl;
     cout << "--------------------------------------------------" << endl;
 }
