@@ -10,7 +10,7 @@ using namespace std;
 int getPlayerChoice(int maxChoice); // let player choose options
 
 // main()
-void main(){
+int main(){
     int choice;
     int max = 3;
     cout << "TESTING: CHOOSE 1, 2, OR 3. " << endl;
