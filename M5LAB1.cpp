@@ -8,6 +8,7 @@ using namespace std;
 
 // Function declarations
 int getPlayerChoice(int maxChoice); // let player choose options
+void showChoices(string choices1, string choice2, string choice3); // display the player choice menus
 
 // main()
 int main(){
@@ -20,10 +21,7 @@ int main(){
     //ending
     return 0;
 }
-// ============================================================================
-// GAME LOGIC FUNCTIONS
-// ============================================================================
-// These functions handle the mechanics of running the game.
+
 
 /**
  * Get a valid choice from the player.
@@ -46,3 +44,25 @@ int getPlayerChoice(int maxChoice) {
         cout << "Please choose between 1 and " << maxChoice << ".\n";
     }
 }
+
+void showChoices(string choices1, string choice2, string choice3) {
+    // A quick menu. If a choice is empty ("") it's not shown
+    // always at least one choice
+    int num = 1;
+    cout << num << ". " << choice1 << endl;
+    num++;
+
+    if (choice2 != ""){
+        cout << num << ". " << choice2 << endl;
+        num++;
+    }
+
+    if (choice3 != "") {
+        cout << num << ". " << choice3 << endl;
+        num++;
+    }
+}
+
+
+
+
