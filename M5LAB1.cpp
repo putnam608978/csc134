@@ -49,7 +49,7 @@ void showChoices(string choices1, string choice2, string choice3) {
     // A quick menu. If a choice is empty ("") it's not shown
     // always at least one choice
     int num = 1;
-    cout << num << ". " << choice1 << endl;
+    cout << num << ". " << choices1 << endl;
     num++;
 
     if (choice2 != ""){
@@ -63,6 +63,16 @@ void showChoices(string choices1, string choice2, string choice3) {
     }
 }
 
+// Game start
+void game_start() {
+    /*Every node of the story does this
+    -describe whats going on
+    -showchoice() with up to 3 strings included
+    - getPlayerChoice() with the max set to up to 3
+    -if statements to branch to other nodes
 
+    */
+   
+}
 
 
