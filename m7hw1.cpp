@@ -102,5 +102,149 @@ int main() {
     pause();
     show_status(o);
 
-    cout <<
+    cout << "\nPANEL MEMBER A: Evidence shows two helicopters were shot down and several men were isolated. We need to know why vehicles moved into that intersection instead of holding on the safer alley approaches. What informed your route choice?\n\n";
+    cout << "1) I chose the route based on human intelligence placing the target at that compound and minimizing civilian exposure.\n";
+    cout << "2) I chose the route to maintain radio line-of-sight and coordinate supporting elements.\n";
+    cout << "3) We improvised route due to fast-moving ground congestion and evolving cues on the ground.\n\n";
+    cout << "Choice: ";
+    c = get_choice(1,3);
+    if (c == 1) {
+        o.credibility += 5; o.transparency += 2; o.unit_care += 3;
+        o.notes.push_back("Route justified on protecting civilians; partially verified.");
+        cout << "\nYou emphasize the attempt to limit collateral harm; panel nods but asks for the intel source and confirmation level.\n";
+    } else if (c == 2) {
+        o.credibility += 3; o.transparency += 0; o.political_risk += 5;
+        o.notes.push_back("Technical communication justification; seen as mixed by panel.");
+        cout << "\nYou explain line-of-sight and comm considerations. Panel asks if comm design overrode force protection — they want to ensure priorities were right.\n";
+    } else {
+        o.credibility -= 5; o.transparency -= 5; o.unit_care -= 5; o.political_risk += 10;
+        o.notes.push_back("Improvisation answer raised concerns about planning.");
+        cout << "\nYou admit improvisation. Panel is concerned: improvisation is sometimes necessary, but they want to know why contingencies failed.\n";
+    }
+    pause();
+    show_status(o);
 
+    cout << "\nPANEL MEMBER B: Witnesses — including a forward air controller and an interpreter — reported a delay between the first engagement and your decision to request immediate reinforcement. Why the delay?\n\n";
+    cout << "1) We assessed the contact as containable while we secured the objective; I chose to hold reinforcement to avoid escalation.\n";
+    cout << "2) Communications were degraded temporarily; by the time the scope became clear I had already sent an emergency beacon.\n";
+    cout << "3) I prioritized recovering isolated personnel myself before calling larger reinforcements to reduce overall footprint.\n\n";
+    cout << "Choice: ";
+    c = get_choice(1,3);
+    if (c == 1) {
+        o.credibility -= 5; o.transparency -= 3; o.unit_care -= 10;
+        o.notes.push_back("Holding reinforcements viewed as underestimating risk.");
+        cout << "\nYou explain risk-calculation; panel worries that priority may have placed personnel at unnecessary risk.\n";
+    } else if (c == 2) {
+        o.credibility += 4; o.transparency += 6; o.notes.push_back("Comm failure is plausible; panel will examine logs.");
+        cout << "\nYou explain comm degradation. Panel asks for logs; this answer is considered plausible but will be validated.\n";
+    } else {
+        o.credibility -= 3; o.transparency += 2; o.unit_care += 5; o.political_risk += 5;
+        o.notes.push_back("Personal recovery attempt seen as valorous but risky.");
+        cout << "\nYou admit you attempted a personal recovery. Panel respects the intent but is concerned about command-level risk-taking.\n";
+    }
+    pause();
+    show_status(o);
+
+    cout << "\nPANEL CHAIR: There are allegations of rules-of-engagement breaches during the urban firefight, including use of heavy force near civilian structures. How do you respond?\n\n";
+    cout << "1) We followed ROE; any heavy force was returned fire to suppress threats and protect personnel.\n";
+    cout << "2) Some actions exceeded intended thresholds — I accept responsibility and will cooperate with the review.\n";
+    cout << "3) The situation on the ground required split-second decisions; applying ROE in hindsight is easier than in contact.\n\n";
+    cout << "Choice: ";
+    c = get_choice(1,3);
+    if (c == 1) {
+        o.credibility += 3; o.transparency -= 2; o.unit_care += 2;
+        o.notes.push_back("Strong legal stance; panel will verify with weapons logs.");
+        cout << "\nYou assert compliance. The legal officer will request weapons and sensor logs to confirm.\n";
+    } else if (c == 2) {
+        o.credibility += 5; o.transparency += 8; o.notes.push_back("Accepting responsibility raises transparency and credibility.");
+        o.unit_care += 5;
+        cout << "\nYou accept that some actions may have exceeded thresholds and pledge cooperation. Panel responds positively to candor but stresses the gravity.\n";
+    } else {
+        o.credibility -= 2; o.transparency -= 5; o.political_risk += 8;
+        o.notes.push_back("Defensive justification seen as potentially evasive.");
+        cout << "\nYou emphasize the chaos of combat. Panel is sympathetic but expects clear accounting for each use of force.\n";
+    }
+    pause();
+    show_status(o);
+
+    cout << "\nPANEL MEMBER C: A reporter alleges a cover-up of the extent of casualties and damaged aircraft. You can either open all logs now or push back citing ongoing operations. What do you do?\n\n";
+    cout << "1) Open all logs, telemetry, and after-action footage immediately to investigators.\n";
+    cout << "2) Provide a summary now and say detailed logs will be provided after classification review.\n";
+    cout << "3) Push back: an immediate release would compromise sources; provide only sanitized info.\n\n";
+    cout << "Choice: ";
+    c = get_choice(1,3);
+    if (c == 1) {
+        o.transparency += 15; o.credibility += 10; o.political_risk -= 10;
+        o.notes.push_back("Full cooperation greatly increased perceived transparency.");
+        cout << "\nYou authorize immediate access to logs for the investigating board. Panel is impressed with full cooperation.\n";
+    } else if (c == 2) {
+        o.transparency += 2; o.credibility += 0; o.political_risk += 5;
+        o.notes.push_back("Partial compliance seen as cautious.");
+        cout << "\nYou offer a summary and promise a full release after classification checks. Panel accepts but marks this for follow-up.\n";
+    } else {
+        o.transparency -= 10; o.credibility -= 10; o.political_risk += 20; o.unit_care -= 5;
+        o.notes.push_back("Resistance to release raises red flags about cover-up risk.");
+        cout << "\nYou resist immediate release citing operational security. Panel grows suspicious and notes press allegations.\n";
+    }
+    pause();
+    show_status(o);
+
+    cout << "\nPANEL CHAIR: Lastly, Governor-level and public attention are increasing. If you could do one thing differently, commander — what would it be?\n";
+    cout << "1) I would have staged a more conservative entry and increased overwatch before moving to the objective.\n";
+    cout << "2) I would have staged faster casualty extraction and a dedicated recovery element on standby.\n";
+    cout << "3) I would have insisted on different human-intel vetting before action.\n\n";
+    cout << "Choice: ";
+    c = get_choice(1,3);
+    if (c == 1) {
+        o.credibility += 6; o.unit_care += 5; o.transparency += 2;
+        o.notes.push_back("Conservative entry shows force protection awareness.");
+        cout << "\nYou show humility and a force-protection lesson. Panel values the measured after-action learning.\n";
+    } else if (c == 2) {
+        o.credibility += 4; o.unit_care += 10; o.transparency += 2;
+        o.notes.push_back("Prioritizing casualty extraction shows concern for personnel.");
+        cout << "\nYou emphasize prioritizing lives and MEDEVAC readiness. Panel notes this positively.\n";
+    } else {
+        o.credibility += 2; o.transparency += 6; o.notes.push_back("Intel vetting focus indicates systemic improvement.");
+        cout << "\nYou pin the issue on intel reliability and suggest procedural reforms. Panel will consider intel-side recommendations.\n";
+    }
+    pause();
+
+    cout << "\nPANEL: Any final statement before we adjourn?\n";
+    cout << "1) Short apology and pledge to cooperate fully.\n";
+    cout << "2) Forceful defense of decisions and request for operational context to be considered publicly.\n";
+    cout << "3) Refuse to comment further until counsel and legal review.\n\n";
+    cout << "Choice: ";
+    c = get_choice(1,3);
+    if (c == 1) {
+        o.transparency += 8; o.credibility += 5; o.unit_care += 5;
+        o.notes.push_back("Apology softened panel and increased faith in leadership.");
+        cout << "\nYou apologize to any affected parties, pledge to answer all questions, and emphasize lessons learned.\n";
+    } else if (c == 2) {
+        o.credibility += 3; o.transparency -= 5; o.political_risk += 5;
+        o.notes.push_back("Forceful defense left mixed impressions.");
+        cout << "\nYou defend your decisions strongly; panel takes note but asks for supporting evidence.\n";
+    } else {
+        o.credibility -= 5; o.transparency -= 8; o.political_risk += 10;
+        o.notes.push_back("Refusal to comment raised significant concerns.");
+        cout << "\nYou decline further comment pending counsel. Panel notes your legal prerogative but expects cooperation.\n";
+    }
+    pause();
+    show_status(o);
+
+    // small random modifier to emulate external political pressure or mitigating evidence
+    int rand_mod = (std::rand() % 21) - 10; // -10..+10
+    o.credibility = std::clamp(o.credibility + rand_mod, 0, 100);
+    o.political_risk = std::clamp(o.political_risk - rand_mod/2, 0, 100);
+
+    cout << "\nThe investigating board will now consult classified logs, witness statements, and intelligence reports. Your immediate fate will be determined.\n";
+    pause();
+
+    final_adjudication(o);
+
+    cout << "DEBRIEF NOTES (for records):\n";
+    for (const auto &n : o.notes) {
+        cout << "- " << n << "\n";
+    }
+    cout << "\nThank you. End of exercise.\n";
+    return 0;
+}
